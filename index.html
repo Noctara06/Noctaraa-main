@@ -19,12 +19,16 @@
 
     <form id="signupForm" class="active">
       <label>
+        Username
+        <input id="signupUsername" type="text" minlength="3" maxlength="30" autocomplete="username" pattern="[A-Za-z0-9._-]+" title="Use letters, numbers, dots, underscores, or hyphens." required />
+      </label>
+      <label>
         Email
-        <input id="signupEmail" type="email" required />
+        <input id="signupEmail" type="email" autocomplete="email" required />
       </label>
       <label>
         Password
-        <input id="signupPassword" type="password" minlength="8" required />
+        <input id="signupPassword" type="password" minlength="8" autocomplete="new-password" required />
       </label>
       <button class="submit" type="submit">Create Account</button>
       <p id="signupMsg" class="msg"></p>

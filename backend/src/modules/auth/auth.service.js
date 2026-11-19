@@ -186,20 +186,26 @@ async function signup(payload) {
   const socialX = normalizeOptionalText(payload.socialX || payload.socials?.x);
   const socialInstagram = normalizeOptionalText(payload.socialInstagram || payload.socials?.instagram);
 
+  if (!username || username.length < 3 || username.length > 30) {
+    throw new AppError(400, "Username must be between 3 and 30 characters.");
+  }
   if (!email || !password) {
-    throw new AppError(400, "Email and password are required.");
+    throw new AppError(400, "Username, email, and password are required.");
   }
   if (password.length < 8) {
     throw new AppError(400, "Password must be at least 8 characters.");
   }
 
-  const existingUser = await prisma.user.findUnique({
-    where: { email },
-    select: { id: true }
-  });
+  const [existingEmail, existingUsername] = await Promise.all([
+    prisma.user.findUnique({ where: { email }, select: { id: true } }),
+    prisma.user.findUnique({ where: { username }, select: { id: true } })
+  ]);
 
-  if (existingUser) {
+  if (existingEmail) {
     throw new AppError(409, "User already exists with this email.");
+  }
+  if (existingUsername) {
+    throw new AppError(409, "This username is already in use.");
   }
 
   const role = await ensureRole(roleName);

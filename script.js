@@ -31,9 +31,8 @@
     }
   }
 
-  function deriveDisplayName(email) {
-    const prefix = String(email || "").split("@")[0] || "Reader";
-    const normalized = prefix.replace(/[._-]+/g, " ").trim();
+  function deriveDisplayName(username) {
+    const normalized = String(username || "").replace(/[._-]+/g, " ").trim();
     return normalized || "Reader";
   }
 
@@ -51,6 +50,7 @@
     const signupMsg = document.getElementById("signupMsg");
     const loginEmailInput = document.getElementById("loginEmail");
     const loginPasswordInput = document.getElementById("loginPassword");
+    const signupUsernameInput = document.getElementById("signupUsername");
     const signupEmailInput = document.getElementById("signupEmail");
     const signupPasswordInput = document.getElementById("signupPassword");
     const loginSubmitBtn = loginForm ? loginForm.querySelector('button[type="submit"]') : null;
@@ -107,9 +107,15 @@
         event.preventDefault();
         setMessage(signupMsg, "", "");
 
+        const username = signupUsernameInput ? signupUsernameInput.value.trim() : "";
         const emailRaw = signupEmailInput ? signupEmailInput.value : "";
         const email = normalizeEmail(emailRaw);
         const password = signupPasswordInput ? signupPasswordInput.value : "";
+
+        if (!/^[a-zA-Z0-9._-]{3,30}$/.test(username)) {
+          setMessage(signupMsg, "Username must be 3–30 characters and use only letters, numbers, dots, underscores, or hyphens.", "error");
+          return;
+        }
 
         if (!email) {
           setMessage(signupMsg, "Please enter a valid email address.", "error");
@@ -124,9 +130,10 @@
         try {
           setButtonState(signupSubmitBtn, true, "Creating...");
           await api.signup({
+            username,
             email,
             password,
-            displayName: deriveDisplayName(emailRaw),
+            displayName: deriveDisplayName(username),
             mode: "reader"
           });
           setMessage(signupMsg, "Your account has been created successfully. Redirecting to reader mode...", "success");
