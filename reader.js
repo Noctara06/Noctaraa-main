@@ -1376,6 +1376,7 @@
   }
 
   function initHeader() {
+    const readerHeader = document.querySelector(".reader-header");
     const searchForm = document.getElementById("globalSearchForm");
     const searchInput = document.getElementById("globalSearchInput");
     const headerLinks = document.querySelector(".header-links");
@@ -1481,6 +1482,19 @@
         bellMarkAll.disabled = !bellItems.some((item) => item && item.unread);
       }
     };
+
+    // On phones keep the brand, notifications, and profile controls reachable
+    // while the secondary browse links collapse after the reader starts moving.
+    if (readerHeader) {
+      const updateCompactHeader = () => {
+        const isPhone = window.matchMedia("(max-width: 700px)").matches;
+        readerHeader.classList.toggle("is-scrolled", isPhone && window.scrollY > 20);
+      };
+
+      updateCompactHeader();
+      window.addEventListener("scroll", updateCompactHeader, { passive: true });
+      window.addEventListener("resize", updateCompactHeader, { passive: true });
+    }
 
     const closeNotifications = () => {
       if (bellPanel) {
@@ -2733,8 +2747,8 @@
       const updateProfileTabs = (displayLabel, isOwnProfile = false) => {
         const safeLabel = String(displayLabel || "Author").trim() || "Author";
         storiesTab.textContent = `Stories By ${safeLabel}`;
-        collectionsTab.textContent = "Public Collections";
-        questionsTab.textContent = isOwnProfile ? "Reader Questions" : `Ask ${safeLabel}`;
+        collectionsTab.textContent = "Collection";
+        questionsTab.textContent = `Ask ${safeLabel}`;
       };
 
       function replaceProfileCollectionQuery(collectionId) {
@@ -2993,6 +3007,7 @@
       const authorNotify = subscribedAuthorIds();
       const ownProfile = isOwnAuthor(author);
       const authorLabel = fullUser && fullUser.displayName ? fullUser.displayName : author.name;
+      const profileTabLabel = fullUser && fullUser.username ? fullUser.username : (author.username || authorLabel);
       if (cover) {
         cover.style.cssText = authorCoverStyle(author, stories);
       }
@@ -3015,7 +3030,7 @@
       if (profileAccessBlocked && !ownProfile) {
         bio.textContent = "This profile is private. Follow this author to see more profile details.";
       }
-      updateProfileTabs(authorLabel, ownProfile);
+      updateProfileTabs(profileTabLabel, ownProfile);
       questionsTitle.textContent = ownProfile ? "Reader Questions" : `Ask ${authorLabel}`;
       questionsIntro.textContent = ownProfile
         ? "Readers can ask you questions here. Reply to them or delete anything you do not want to keep."

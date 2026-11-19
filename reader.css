@@ -2086,7 +2086,8 @@ a {
 
   .reader-header {
     min-height: 64px;
-    padding: 0 10px;
+    padding: calc(6px + env(safe-area-inset-top)) 10px 6px;
+    transition: padding 0.18s ease, gap 0.18s ease;
   }
 
   .header-search {
@@ -2101,6 +2102,20 @@ a {
   .header-links a {
     padding: 7px 10px;
     font-size: 0.8rem;
+  }
+
+  /* The primary controls remain pinned; browse links collapse during reading. */
+  .reader-header.is-scrolled {
+    grid-template-areas:
+      "brand profile"
+      "search search";
+    min-height: 56px;
+    padding-top: calc(6px + env(safe-area-inset-top));
+    padding-bottom: 6px;
+  }
+
+  .reader-header.is-scrolled .header-links {
+    display: none;
   }
 
   .writer-mode-link {
@@ -2258,14 +2273,25 @@ a {
   }
 
   .profile-tab-nav {
-    padding: 0 4px 4px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
   }
 
   .profile-tab-btn {
-    flex: 0 0 auto;
-    white-space: nowrap;
+    min-width: 0;
+    padding: 13px 6px 12px;
+    font-size: 0.76rem;
+    line-height: 1.2;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .profile-tab-btn::after {
+    left: 8px;
+    right: 8px;
   }
 
   .profile-menu {
