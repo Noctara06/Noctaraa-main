@@ -2367,15 +2367,6 @@ a {
     padding-inline: 8px;
   }
 
-  .story-grid > *,
-  .reader-shell[data-reader-page="explore"] .story-card,
-  .reader-shell[data-reader-page="library"] .story-card,
-  .reader-shell[data-reader-page="collection"] .story-card,
-  .reader-shell[data-reader-page="profile"] .story-card {
-    flex-basis: min(72vw, 210px);
-    width: min(72vw, 210px);
-  }
-
   .mobile-bottom-nav {
     left: 5px;
     right: 5px;
@@ -2389,5 +2380,79 @@ a {
     min-height: 50px;
     padding-inline: 2px;
     font-size: 0.64rem;
+  }
+}
+
+/* Explore is a browse page, so phone cards stay compact and centred instead of
+   becoming a large horizontal carousel. */
+@media (max-width: 700px) {
+  .reader-shell[data-reader-page="explore"] .story-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, min(46vw, 154px)));
+    justify-content: center;
+    gap: 12px 10px;
+    overflow: visible;
+    padding: 2px 0 6px;
+    scroll-snap-type: none;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-card {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    border-radius: 12px;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-card:only-child {
+    grid-column: 1 / -1;
+    width: min(100%, 154px);
+    justify-self: center;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-cover {
+    aspect-ratio: 3 / 4;
+    padding: 9px;
+    font-size: 0.76rem;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-body {
+    padding: 9px;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-title {
+    font-size: 0.86rem;
+    line-height: 1.28;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-author,
+  .reader-shell[data-reader-page="explore"] .metric-chip {
+    font-size: 0.72rem;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-card-actions {
+    margin-top: 8px;
+    gap: 5px;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-card-actions .btn {
+    min-width: 0;
+    padding: 7px 6px;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .reader-shell[data-reader-page="explore"] .section-head {
+    margin-bottom: 9px;
+  }
+
+  .reader-shell[data-reader-page="explore"] .section-title {
+    font-size: 1rem;
+  }
+
+  .reader-shell[data-reader-page="explore"] .section-sub {
+    font-size: 0.76rem;
+    line-height: 1.35;
   }
 }

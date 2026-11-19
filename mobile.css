@@ -1,0 +1,215 @@
+/* Shared phone-first refinements. Loaded after each page stylesheet. */
+@media (max-width: 700px) {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]),
+  select {
+    min-height: 44px;
+  }
+
+  textarea {
+    min-height: 100px;
+  }
+
+  /* Reader: the primary browse page uses compact, centred two-column cards. */
+  .reader-shell .reader-main,
+  .writer-shell .writer-main,
+  .admin-main {
+    width: 100%;
+    padding-inline: 12px;
+  }
+
+  .reader-shell .section,
+  .writer-shell .section {
+    margin-bottom: 22px;
+  }
+
+  .reader-shell .section-head,
+  .writer-shell .section-head {
+    gap: 4px;
+    margin-bottom: 10px;
+  }
+
+  .reader-shell .section-title,
+  .writer-shell .section-title {
+    font-size: 1.05rem;
+    line-height: 1.25;
+  }
+
+  .reader-shell .section-sub,
+  .writer-shell .section-sub {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, min(46vw, 154px)));
+    justify-content: center;
+    gap: 12px 10px;
+    overflow: visible;
+    padding: 2px 0 6px;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-card {
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    border-radius: 12px;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-card:only-child {
+    grid-column: 1 / -1;
+    width: min(100%, 154px);
+    justify-self: center;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-cover {
+    height: auto;
+    aspect-ratio: 3 / 4;
+    padding: 9px;
+    font-size: 0.76rem;
+    border-radius: 12px 12px 0 0;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-body {
+    padding: 9px;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-title {
+    font-size: 0.86rem;
+    line-height: 1.28;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-author,
+  .reader-shell[data-reader-page="explore"] .metric-chip {
+    font-size: 0.72rem;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-card-actions {
+    gap: 5px;
+    margin-top: 8px;
+  }
+
+  .reader-shell[data-reader-page="explore"] .story-card-actions .btn {
+    min-width: 0;
+    padding: 7px 6px;
+    font-size: 0.7rem;
+  }
+
+  .reader-shell .genre-row {
+    gap: 8px;
+    padding-bottom: 8px;
+  }
+
+  /* Writer: editor actions and rows must not force a horizontal scroll. */
+  .writer-shell .card,
+  .writer-shell .editor-section,
+  .admin-main .card,
+  .admin-main .panel {
+    padding: 12px;
+    border-radius: 14px;
+  }
+
+  .writer-shell .story-actions,
+  .writer-shell .editor-action-row,
+  .writer-shell .form-actions,
+  .admin-actions {
+    gap: 8px;
+  }
+
+  .writer-shell .story-actions .btn,
+  .writer-shell .editor-action-row .btn,
+  .writer-shell .form-actions .btn {
+    flex: 1 1 130px;
+  }
+
+  .writer-shell .editor-cover-preview {
+    min-height: 210px;
+  }
+
+  .writer-shell .editor-description,
+  .writer-shell .rich-editor {
+    min-height: 180px;
+  }
+
+  /* Admin tables are already converted to cards; tighten their content. */
+  .admin-main .accordion-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-main .accordion-toggle,
+  .admin-main .accordion-panel {
+    padding-inline: 12px;
+  }
+
+  /* Settings: make long labels and control groups safe on narrow phones. */
+  .settings-main {
+    width: calc(100% - 24px);
+    margin-top: 16px;
+    margin-bottom: calc(120px + env(safe-area-inset-bottom));
+    gap: 16px;
+  }
+
+  .settings-card,
+  .settings-sidebar {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .settings-toggle-row {
+    gap: 12px;
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  /* Keep fixed phone navigation clear of the last item on every app section. */
+  body.has-mobile-bottom-nav .reader-main,
+  body.has-mobile-bottom-nav .writer-main,
+  body.has-mobile-bottom-nav .admin-main {
+    padding-bottom: calc(122px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 480px) {
+  .reader-shell .reader-main,
+  .writer-shell .writer-main,
+  .admin-main {
+    padding-inline: 8px;
+  }
+
+  .reader-shell[data-reader-page="explore"] .section-title,
+  .writer-shell .section-title {
+    font-size: 1rem;
+  }
+
+  .reader-shell[data-reader-page="explore"] .section-sub,
+  .writer-shell .section-sub {
+    font-size: 0.76rem;
+  }
+
+  .settings-main {
+    width: calc(100% - 16px);
+  }
+}
