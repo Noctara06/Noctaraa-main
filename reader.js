@@ -2527,6 +2527,7 @@
       const storyBtn = document.getElementById("chapterStoryBtn");
       const prevBtn = document.getElementById("chapterPrevBtn");
       const nextBtn = document.getElementById("chapterNextBtn");
+      const backToTopBtn = document.getElementById("chapterBackToTopBtn");
       const body = document.getElementById("chapterBody");
       const commentsNode = document.getElementById("chapterCommentsList");
       const commentInput = document.getElementById("chapterCommentInput");
@@ -2596,6 +2597,12 @@
         }
       }
       if (body) body.innerHTML = chapter.content || "<p>Story content is not available.</p>";
+
+      if (backToTopBtn) {
+        backToTopBtn.addEventListener("click", () => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
 
       if (likeBtn) likeBtn.addEventListener("click", async () => {
         likeBtn.disabled = true;

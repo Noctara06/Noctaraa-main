@@ -1263,6 +1263,25 @@ a {
   margin: 0 0 1.05rem 0;
 }
 
+.chapter-reader-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.chapter-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+
+.chapter-top-btn {
+  margin-inline: auto;
+}
+
 .chapter-list {
   display: grid;
   gap: 10px;

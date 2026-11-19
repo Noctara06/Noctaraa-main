@@ -64,6 +64,22 @@
     line-height: 1.4;
   }
 
+  .reader-shell[data-reader-page="chapter"] .chapter-reader-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .reader-shell[data-reader-page="chapter"] .chapter-nav-btn {
+    min-width: 0;
+    padding-inline: 8px;
+    font-size: 0.78rem;
+  }
+
+  .reader-shell[data-reader-page="chapter"] .chapter-top-btn {
+    grid-column: 1 / -1;
+    margin-inline: 0;
+  }
+
   .reader-shell[data-reader-page="explore"] .story-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, min(46vw, 154px)));
