@@ -1229,28 +1229,34 @@ a {
 
 @media (max-width: 620px) {
   .writer-header {
-    padding: 8px 10px;
-    gap: 8px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    min-height: 60px;
+    padding: calc(8px + env(safe-area-inset-top)) 10px 8px;
+    gap: 6px;
+    position: sticky;
+    top: 0;
+    z-index: 80;
   }
 
   .writer-nav {
-    width: 100%;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .writer-nav a {
-    flex: 0 0 auto;
-    white-space: nowrap;
+    display: none;
   }
 
   .writer-actions {
-    width: 100%;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 8px;
+    grid-column: 2;
+    grid-row: 1;
+    width: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+
+  .reader-link {
+    min-height: 42px;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    white-space: nowrap;
   }
 
   .profile-menu {
@@ -1285,7 +1291,8 @@ a {
   }
 
   .stats-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .card,
@@ -1295,10 +1302,89 @@ a {
 
   .story-row {
     grid-template-columns: 1fr;
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .story-row-main h3 {
+    overflow-wrap: anywhere;
+  }
+
+  .story-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .story-meta span:last-child {
+    grid-column: 1 / -1;
   }
 
   .story-actions {
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .story-actions .btn {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .quick-actions {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    gap: 10px !important;
+  }
+
+  .quick-actions .btn {
+    width: 100%;
+    min-height: 48px;
+    text-align: center;
+  }
+
+  .writer-shell[data-writer-page="stories"] .table-head {
+    display: none;
+  }
+
+  .writer-shell[data-writer-page="stories"] .table-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.7);
+  }
+
+  .writer-shell[data-writer-page="stories"] .story-management-title,
+  .writer-shell[data-writer-page="stories"] .story-management-actions {
+    grid-column: 1 / -1;
+  }
+
+  .writer-shell[data-writer-page="stories"] .story-management-title {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .writer-shell[data-writer-page="stories"] .table-row [data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+  }
+
+  .writer-shell[data-writer-page="stories"] .story-management-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .writer-shell[data-writer-page="stories"] .story-management-actions .btn {
+    min-width: 0;
+    min-height: 42px;
+    padding-inline: 6px;
   }
 
   .editor-cover-preview {

@@ -1401,6 +1401,15 @@
     let bellList = document.getElementById("readerNotificationPanelList");
     let bellMarkAll = document.getElementById("readerNotificationPanelMarkAll");
     let bellItems = [];
+    const updateHeaderOverlayOffset = () => {
+      if (!readerHeader) {
+        return;
+      }
+      document.documentElement.style.setProperty(
+        "--reader-header-bottom",
+        `${Math.ceil(readerHeader.getBoundingClientRect().bottom)}px`
+      );
+    };
 
     if (headerProfile && profileBtn && !bell) {
       bellWrap = document.createElement("div");
@@ -1492,6 +1501,7 @@
       const updateCompactHeader = () => {
         const isPhone = window.matchMedia("(max-width: 700px)").matches;
         readerHeader.classList.toggle("is-scrolled", isPhone && window.scrollY > 20);
+        updateHeaderOverlayOffset();
       };
 
       updateCompactHeader();
@@ -1666,6 +1676,7 @@
       profileBtn.addEventListener("click", (event) => {
         event.stopPropagation();
         closeNotifications();
+        updateHeaderOverlayOffset();
         const open = profileMenu.classList.toggle("open");
         profileBtn.setAttribute("aria-expanded", String(open));
       });
@@ -1686,6 +1697,7 @@
       bell.dataset.bound = "true";
       bell.addEventListener("click", async (event) => {
         event.stopPropagation();
+        updateHeaderOverlayOffset();
         const opening = !bellPanel.classList.contains("open");
         if (profileMenu) {
           profileMenu.classList.remove("open");

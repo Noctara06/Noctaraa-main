@@ -2358,6 +2358,44 @@ a {
     width: min(92vw, 360px);
   }
 
+  /* Header popovers use the viewport as their boundary on phones, so neither
+     menu can be clipped when its trigger sits near a screen edge. */
+  .reader-shell .profile-menu,
+  .reader-shell .notification-panel {
+    position: fixed;
+    top: calc(var(--reader-header-bottom, 72px) + 8px);
+    right: max(8px, env(safe-area-inset-right));
+    left: max(8px, env(safe-area-inset-left));
+    width: auto;
+    max-width: none;
+    max-height: calc(100dvh - var(--reader-header-bottom, 72px) - 16px);
+  }
+
+  .reader-shell .profile-menu {
+    overflow-y: auto;
+  }
+
+  .reader-shell .notification-panel {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .reader-shell .notification-panel-list {
+    min-height: 0;
+    max-height: none;
+  }
+
+  .reader-shell .notification-panel-head > div,
+  .reader-shell .notification-panel-item,
+  .reader-shell .menu-user,
+  .reader-shell .menu-item {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .reader-shell .notification-panel-action {
+    white-space: normal;
+  }
+
   .profile-followers-dialog {
     max-height: min(84vh, 720px);
   }

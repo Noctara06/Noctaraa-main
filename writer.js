@@ -992,11 +992,11 @@
         const row = document.createElement("article");
         row.className = "table-row";
         row.innerHTML = `
-          <span>${safe(story.title)}</span>
-          <span><span class="status-badge ${statusClass(story.status)}">${statusText(story.status)}</span></span>
-          <span>${fmt(story.reads)}</span>
-          <span>${fmt(story.likes)}</span>
-          <span style="display:flex;gap:6px;flex-wrap:wrap;">
+          <span class="story-management-title">${safe(story.title)}</span>
+          <span data-label="Status"><span class="status-badge ${statusClass(story.status)}">${statusText(story.status)}</span></span>
+          <span data-label="Reads">${fmt(story.reads)}</span>
+          <span data-label="Votes">${fmt(story.likes)}</span>
+          <span class="story-management-actions" data-label="Actions">
             <button class="btn small" data-action="edit">Edit</button>
             <button class="btn small" data-action="unpublish">Unpublish</button>
             <button class="btn small" data-action="delete">Delete</button>
