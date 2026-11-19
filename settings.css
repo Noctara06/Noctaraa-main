@@ -597,3 +597,51 @@ textarea {
     transform: translateY(-1px);
   }
 }
+
+@media (max-width: 480px) {
+  body.settings-shell {
+    overflow-x: hidden;
+  }
+
+  .settings-header {
+    gap: 10px;
+    padding: calc(10px + env(safe-area-inset-top)) 10px 10px;
+  }
+
+  .settings-brand {
+    font-size: 1.05rem;
+  }
+
+  .settings-main {
+    width: calc(100% - 16px);
+    margin-top: 12px;
+    gap: 12px;
+  }
+
+  .settings-card,
+  .settings-sidebar,
+  .settings-modal-dialog {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .settings-toggle-row {
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .mobile-bottom-nav {
+    left: 5px;
+    right: 5px;
+    bottom: calc(5px + env(safe-area-inset-bottom));
+    gap: 2px;
+    padding: 5px;
+    border-radius: 15px;
+  }
+
+  .mobile-bottom-nav-link {
+    min-height: 50px;
+    padding-inline: 2px;
+    font-size: 0.64rem;
+  }
+}

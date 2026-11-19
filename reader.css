@@ -2330,3 +2330,64 @@ a {
     transform: translateY(-1px);
   }
 }
+
+@media (max-width: 480px) {
+  body.reader-shell {
+    overflow-x: hidden;
+  }
+
+  .reader-header {
+    gap: 8px;
+    padding: calc(8px + env(safe-area-inset-top)) 8px 8px;
+  }
+
+  .brand-link {
+    min-width: 0;
+    font-size: 0.92rem;
+  }
+
+  .header-search,
+  .header-search input {
+    min-width: 0;
+  }
+
+  .header-links {
+    gap: 6px;
+    max-width: 100%;
+  }
+
+  .header-links a,
+  .writer-mode-link,
+  .notification-link,
+  .header-profile > button {
+    min-height: 44px;
+  }
+
+  .reader-main {
+    padding-inline: 8px;
+  }
+
+  .story-grid > *,
+  .reader-shell[data-reader-page="explore"] .story-card,
+  .reader-shell[data-reader-page="library"] .story-card,
+  .reader-shell[data-reader-page="collection"] .story-card,
+  .reader-shell[data-reader-page="profile"] .story-card {
+    flex-basis: min(72vw, 210px);
+    width: min(72vw, 210px);
+  }
+
+  .mobile-bottom-nav {
+    left: 5px;
+    right: 5px;
+    bottom: calc(5px + env(safe-area-inset-bottom));
+    gap: 2px;
+    padding: 5px;
+    border-radius: 15px;
+  }
+
+  .mobile-bottom-nav-link {
+    min-height: 50px;
+    padding-inline: 2px;
+    font-size: 0.64rem;
+  }
+}

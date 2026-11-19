@@ -1340,3 +1340,53 @@ a {
     gap: 6px;
   }
 }
+
+@media (max-width: 480px) {
+  body.writer-shell {
+    overflow-x: hidden;
+  }
+
+  .writer-header,
+  .writer-main {
+    padding-inline: 8px;
+  }
+
+  .writer-header {
+    padding-top: calc(8px + env(safe-area-inset-top));
+  }
+
+  .writer-brand {
+    font-size: 0.92rem;
+  }
+
+  .writer-actions {
+    gap: 6px;
+  }
+
+  .reader-link,
+  .notification-link,
+  .profile-btn {
+    min-height: 44px;
+  }
+
+  .card,
+  .editor-section {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .mobile-bottom-nav {
+    left: 5px;
+    right: 5px;
+    bottom: calc(5px + env(safe-area-inset-bottom));
+    gap: 2px;
+    padding: 5px;
+    border-radius: 15px;
+  }
+
+  .mobile-bottom-nav-link {
+    min-height: 50px;
+    padding-inline: 2px;
+    font-size: 0.64rem;
+  }
+}

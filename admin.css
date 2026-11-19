@@ -640,3 +640,51 @@ body {
     font-size: 1rem;
   }
 }
+
+@media (max-width: 480px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .admin-header,
+  .admin-main {
+    padding-inline: 8px;
+  }
+
+  .admin-header {
+    padding-top: calc(10px + env(safe-area-inset-top));
+  }
+
+  .admin-brand {
+    font-size: 0.94rem;
+  }
+
+  .admin-actions .btn,
+  .admin-nav-link {
+    min-height: 42px;
+  }
+
+  .accordion-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .accordion-toggle,
+  .accordion-panel {
+    padding-inline: 10px;
+  }
+
+  .mobile-bottom-nav {
+    left: 5px;
+    right: 5px;
+    bottom: calc(5px + env(safe-area-inset-bottom));
+    gap: 2px;
+    padding: 5px;
+    border-radius: 15px;
+  }
+
+  .mobile-bottom-nav-link {
+    min-height: 50px;
+    padding-inline: 2px;
+    font-size: 0.64rem;
+  }
+}

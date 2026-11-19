@@ -424,3 +424,39 @@ body.home-page #landingPage {
     font-size: clamp(1rem, 5.8vw, 1.55rem);
   }
 }
+
+/* Small phones: keep controls comfortably tappable without introducing side scroll. */
+@media (max-width: 480px) {
+  body.home-page {
+    overflow-x: hidden;
+  }
+
+  #authApp {
+    width: calc(100% - 20px);
+    padding: 20px 16px;
+    border-radius: 14px;
+  }
+
+  .home-nav {
+    padding: calc(10px + env(safe-area-inset-top)) 10px 10px;
+  }
+
+  .nav-search {
+    min-width: 0;
+  }
+
+  .profile-btn,
+  .nav-search {
+    min-height: 44px;
+  }
+
+  .mode-screen {
+    padding: 10px;
+  }
+
+  .mode-btn {
+    min-height: 138px;
+    padding: 18px;
+    border-radius: 16px;
+  }
+}
