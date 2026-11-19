@@ -1191,6 +1191,13 @@
         collectionWrap.classList.remove("open-right", "open-up");
         submenu.style.maxWidth = "";
 
+        // On phones the menu is rendered as a viewport-safe popup and the
+        // collection choices expand below their trigger. Side positioning here
+        // would push the submenu outside the visible screen.
+        if (window.matchMedia("(max-width: 700px)").matches) {
+          return;
+        }
+
         const computedDisplay = window.getComputedStyle(submenu).display;
         const wasHidden = computedDisplay === "none";
         const previousDisplay = submenu.style.display;
