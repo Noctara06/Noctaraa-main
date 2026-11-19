@@ -714,6 +714,9 @@
     author.followersCount = hasOwnValue(user, "followersCount")
       ? Number(user.followersCount ?? 0)
       : Number(author.followersCount ?? 0);
+    author.followingCount = hasOwnValue(user, "followingCount")
+      ? Number(user.followingCount ?? 0)
+      : Number(author.followingCount ?? 0);
     author.photoGradient = authorGradient(color);
     if (!existing) {
       state.authorMap.set(id, author);
@@ -2932,6 +2935,9 @@
       let fullUser = null;
       let profileFollowers = [];
       let followersLoaded = false;
+      let profileFollowing = [];
+      let followingLoaded = false;
+      let profileRelationMode = "followers";
       let profileQuestions = [];
       let activeReplyEditorId = "";
       let profileAccessBlocked = false;
@@ -2956,6 +2962,14 @@
         } catch (error) {
           profileFollowers = [];
           followersLoaded = false;
+        }
+
+        try {
+          profileFollowing = await api.listAuthorFollowing(author.id);
+          followingLoaded = true;
+        } catch (error) {
+          profileFollowing = [];
+          followingLoaded = false;
         }
 
         try {
@@ -3083,37 +3097,52 @@
         profileFollowers = profileFollowers.filter((item) => String(item && item.id || "").trim() !== viewerId);
       };
 
+      const relationDetails = () => {
+        const isFollowingList = profileRelationMode === "following";
+        const count = Number(isFollowingList ? author.followingCount || 0 : author.followersCount || 0);
+        return {
+          label: isFollowingList ? "Following" : "Followers",
+          count,
+          users: isFollowingList ? profileFollowing : profileFollowers,
+          loaded: isFollowingList ? followingLoaded : followersLoaded,
+          emptyText: ownProfile
+            ? (isFollowingList ? "You are not following anyone yet." : "You do not have any followers yet.")
+            : (isFollowingList ? `${authorLabel} is not following anyone yet.` : `${authorLabel} does not have any followers yet.`)
+        };
+      };
+
       const renderFollowersModal = () => {
-        const followerCount = Number(author.followersCount || 0);
-        followersModalTitle.textContent = `${authorLabel} Followers`;
-        followersModalCount.textContent = `${numberLabel(followerCount)} follower${followerCount === 1 ? "" : "s"}`;
+        const relation = relationDetails();
+        const relationLabel = relation.label.toLowerCase();
+        followersModalTitle.textContent = `${authorLabel} ${relation.label}`;
+        followersModalCount.textContent = `${numberLabel(relation.count)} ${relationLabel}`;
         followersModalList.innerHTML = "";
 
-        if (!followerCount) {
+        if (!relation.count) {
           const empty = document.createElement("p");
           empty.className = "empty";
-          empty.textContent = ownProfile ? "You do not have any followers yet." : `${authorLabel} does not have any followers yet.`;
+          empty.textContent = relation.emptyText;
           followersModalList.appendChild(empty);
           return;
         }
 
-        if (!followersLoaded) {
+        if (!relation.loaded) {
           const empty = document.createElement("p");
           empty.className = "empty";
-          empty.textContent = "Followers could not be loaded right now.";
+          empty.textContent = `${relation.label} could not be loaded right now.`;
           followersModalList.appendChild(empty);
           return;
         }
 
-        if (!profileFollowers.length) {
+        if (!relation.users.length) {
           const empty = document.createElement("p");
           empty.className = "empty";
-          empty.textContent = ownProfile ? "You do not have any followers yet." : `${authorLabel} does not have any followers yet.`;
+          empty.textContent = relation.emptyText;
           followersModalList.appendChild(empty);
           return;
         }
 
-        profileFollowers.forEach((follower) => {
+        relation.users.forEach((follower) => {
           const followerId = String(follower && follower.id || "").trim();
           const card = document.createElement("a");
           card.className = "profile-followers-row";
@@ -3149,26 +3178,42 @@
         followersModal.classList.add("hidden");
       };
 
-      const ensureFollowersLoaded = async () => {
-        if (followersLoaded || !author || !author.id) {
+      const ensureRelationLoaded = async (mode) => {
+        const isFollowingList = mode === "following";
+        if ((isFollowingList ? followingLoaded : followersLoaded) || !author || !author.id) {
           return;
         }
 
         try {
-          profileFollowers = await api.listAuthorFollowers(author.id);
-          followersLoaded = true;
+          const users = isFollowingList
+            ? await api.listAuthorFollowing(author.id)
+            : await api.listAuthorFollowers(author.id);
+          if (isFollowingList) {
+            profileFollowing = users;
+            followingLoaded = true;
+          } else {
+            profileFollowers = users;
+            followersLoaded = true;
+          }
         } catch (error) {
-          profileFollowers = [];
-          followersLoaded = false;
+          if (isFollowingList) {
+            profileFollowing = [];
+            followingLoaded = false;
+          } else {
+            profileFollowers = [];
+            followersLoaded = false;
+          }
         }
       };
 
-      const openFollowersModal = async () => {
+      const openFollowersModal = async (mode = "followers") => {
+        profileRelationMode = mode === "following" ? "following" : "followers";
+        const relation = relationDetails();
         followersModal.classList.remove("hidden");
-        followersModalList.innerHTML = '<div class="empty">Loading followers...</div>';
-        followersModalTitle.textContent = `${authorLabel} Followers`;
-        followersModalCount.textContent = `${numberLabel(Number(author.followersCount || 0))} follower${Number(author.followersCount || 0) === 1 ? "" : "s"}`;
-        await ensureFollowersLoaded();
+        followersModalList.innerHTML = `<div class="empty">Loading ${relation.label.toLowerCase()}...</div>`;
+        followersModalTitle.textContent = `${authorLabel} ${relation.label}`;
+        followersModalCount.textContent = `${numberLabel(relation.count)} ${relation.label.toLowerCase()}`;
+        await ensureRelationLoaded(profileRelationMode);
         renderFollowersModal();
       };
 
@@ -3192,8 +3237,23 @@
           await openFollowersModal();
         });
 
+        const followingCount = Number(author.followingCount || 0);
+        const followingStat = document.createElement("button");
+        followingStat.type = "button";
+        followingStat.className = "author-stat-btn";
+        followingStat.textContent = `${numberLabel(followingCount)} following`;
+        followingStat.setAttribute("aria-label", `Open following list for ${authorLabel}`);
+        followingStat.addEventListener("click", async () => {
+          if (profileAccessBlocked && !ownProfile) {
+            showPageStatus("Following is hidden because this profile is private.", "info");
+            return;
+          }
+          await openFollowersModal("following");
+        });
+
         stats.appendChild(storiesStat);
         stats.appendChild(followersStat);
+        stats.appendChild(followingStat);
 
         if (ownProfile) {
           if (editBtn) {

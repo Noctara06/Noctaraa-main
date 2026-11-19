@@ -1003,6 +1003,15 @@
     return Array.isArray(response.data) ? response.data.map((user) => normalizeFollowerUser(user)) : [];
   }
 
+  async function listAuthorFollowing(authorId) {
+    const response = await request(`/reader/authors/${encodeURIComponent(authorId)}/following`, {
+      method: "GET",
+      auth: "required"
+    });
+
+    return Array.isArray(response.data) ? response.data.map((user) => normalizeFollowerUser(user)) : [];
+  }
+
   async function updateReadingProgress(storyId, payload) {
     const response = await request(`/reader/progress/${encodeURIComponent(storyId)}`, {
       method: "PUT",
@@ -1232,6 +1241,7 @@
     subscribeAuthorUpdates,
     unsubscribeAuthorUpdates,
     listAuthorFollowers,
+    listAuthorFollowing,
     updateReadingProgress,
     followAuthor,
     unfollowAuthor,

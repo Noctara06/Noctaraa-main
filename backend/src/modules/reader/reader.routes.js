@@ -27,6 +27,7 @@ router.post("/author-subscriptions/:authorId", requireAuth, authorizePermissions
 router.delete("/author-subscriptions/:authorId", requireAuth, authorizePermissions(PERMISSIONS.STORIES_READ), controller.unsubscribeAuthorUpdates);
 router.put("/progress/:storyId", requireAuth, authorizePermissions(PERMISSIONS.STORIES_READ), controller.updateReadingProgress);
 router.get("/authors/:authorId/followers", requireAuth, authorizePermissions(PERMISSIONS.STORIES_READ), controller.listAuthorFollowers);
+router.get("/authors/:authorId/following", requireAuth, authorizePermissions(PERMISSIONS.STORIES_READ), controller.listAuthorFollowing);
 router.post("/follows/:authorId", requireAuth, authorizePermissions(PERMISSIONS.STORIES_READ), controller.followAuthor);
 router.delete("/follows/:authorId", requireAuth, authorizePermissions(PERMISSIONS.STORIES_READ), controller.unfollowAuthor);
 router.get("/chapters/:chapterId/comments", requireAuth, authorizePermissions(PERMISSIONS.STORIES_READ), controller.listChapterComments);

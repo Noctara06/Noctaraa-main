@@ -252,6 +252,18 @@ async function listAuthorFollowers(req, res, next) {
   }
 }
 
+async function listAuthorFollowing(req, res, next) {
+  try {
+    const data = await service.listAuthorFollowing(req.params.authorId, req.auth || {});
+    res.status(200).json({
+      success: true,
+      data
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
 async function listChapterComments(req, res, next) {
   try {
     const data = await service.listChapterComments(req.params.chapterId, req.auth || {});
@@ -370,6 +382,7 @@ module.exports = {
   followAuthor,
   unfollowAuthor,
   listAuthorFollowers,
+  listAuthorFollowing,
   listChapterComments,
   createChapterComment,
   listStoryComments,

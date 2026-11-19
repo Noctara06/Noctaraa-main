@@ -288,6 +288,18 @@ function toPublicFollowerUser(entry) {
   };
 }
 
+function toPublicFollowingUser(entry) {
+  return {
+    id: entry.author.id,
+    email: entry.author.email,
+    displayName: entry.author.displayName || null,
+    username: entry.author.username || null,
+    avatarColor: entry.author.avatarColor || "#7C7CFF",
+    avatarUrl: entry.author.avatarUrl || null,
+    followedAt: toIsoString(entry.createdAt)
+  };
+}
+
 function normalizeProfileThreadText(value, fieldLabel, maxLength) {
   const text = String(value || "").replace(/\r/g, "").trim();
   if (!text) {
@@ -1457,6 +1469,33 @@ async function listAuthorFollowers(authorId, actor) {
   return followers.map(toPublicFollowerUser);
 }
 
+async function listAuthorFollowing(authorId, actor) {
+  const author = await ensureReadableAuthor(authorId, actor);
+
+  const following = await prisma.userFollow.findMany({
+    where: {
+      followerId: author.id
+    },
+    orderBy: {
+      createdAt: "desc"
+    },
+    include: {
+      author: {
+        select: {
+          id: true,
+          email: true,
+          displayName: true,
+          username: true,
+          avatarColor: true,
+          avatarUrl: true
+        }
+      }
+    }
+  });
+
+  return following.map(toPublicFollowingUser);
+}
+
 async function listChapterComments(chapterId, actor) {
   const chapter = await ensureReadableChapter(chapterId, actor);
 
@@ -1798,6 +1837,7 @@ module.exports = {
   followAuthor,
   unfollowAuthor,
   listAuthorFollowers,
+  listAuthorFollowing,
   listChapterComments,
   createChapterComment,
   listStoryComments,
