@@ -67,10 +67,12 @@
   .reader-shell[data-reader-page="chapter"] .chapter-reader-nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .reader-shell[data-reader-page="chapter"] .chapter-nav-btn {
     min-width: 0;
+    min-height: 46px;
     padding-inline: 8px;
     font-size: 0.78rem;
   }
@@ -78,6 +80,12 @@
   .reader-shell[data-reader-page="chapter"] .chapter-top-btn {
     grid-column: 1 / -1;
     margin-inline: 0;
+  }
+
+  .reader-shell[data-reader-page="chapter"] .story-content {
+    padding: 16px;
+    font-size: 1.02rem;
+    line-height: 1.8;
   }
 
   .reader-shell[data-reader-page="explore"] .story-grid {
@@ -267,6 +275,17 @@
   .reader-shell .story-card-quick-menu {
     right: 8px;
     left: 8px;
+  }
+
+  .reader-shell[data-reader-page="chapter"] .chapter-nav-btn {
+    padding-inline: 6px;
+    font-size: 0.74rem;
+  }
+
+  .reader-shell[data-reader-page="chapter"] .story-content {
+    padding: 14px;
+    font-size: 1rem;
+    line-height: 1.78;
   }
 
   .settings-main {

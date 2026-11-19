@@ -1276,10 +1276,19 @@ a {
   align-items: center;
   justify-content: center;
   gap: 7px;
+  min-height: 44px;
+}
+
+#chapterPrevBtn {
+  order: 1;
+}
+
+#chapterNextBtn {
+  order: 2;
 }
 
 .chapter-top-btn {
-  margin-inline: auto;
+  order: 3;
 }
 
 .chapter-list {
